@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option go_package = "./numbers";
+
+package numbers;
+
+service Numbers {
+    rpc GetRandom (GetRandomRequest) returns (GetRandomReply) {}
+}
+
+message GetRandomRequest {
+    int32 highest = 1;
+}
+
+message GetRandomReply {
+    int32 result = 1;
+}
