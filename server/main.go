@@ -22,7 +22,7 @@ type service struct {
 }
 
 func (s *service) GetRandom(ctx context.Context, r *pb.GetRandomRequest) (*pb.GetRandomReply, error) {
-	num := rand.Int31n(r.Highest)
+	num := rand.Int31n(r.Highest) + 1
 	return &pb.GetRandomReply{Result: num}, nil
 }
 
