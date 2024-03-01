@@ -4,12 +4,17 @@ project(client)
 
 set(CMAKE_CXX_STANDARD 17)
 
+# Abseil dependencies
+find_package(abseil)
+
+# Protobuf dependencies
 set(protobuf_MODULE_COMPATIBLE TRUE)
 
 find_package(protobuf CONFIG REQUIRED)
 find_package(gRPC CONFIG REQUIRED)
 find_package(Threads)
 
+# Protobuf variables
 set(_PROTOBUF_LIBPROTOBUF protobuf::libprotobuf)
 set(_REFLECTION gRPC::grpc++_reflection)
 if(CMAKE_CROSSCOMPILING)
@@ -43,6 +48,7 @@ add_custom_command(
         DEPENDS "${numbers_proto}"
 )
 
+# Protobuf and binary generation
 include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 
 add_library(numbers_grpc_proto
@@ -63,6 +69,8 @@ foreach(_target client)
 
     target_link_libraries(${_target}
             numbers_grpc_proto
+            absl::flags
+            absl::flags_parse
             ${_PROTOBUF_LIBPROTOBUF}
             ${_REFLECTION}
             ${_GRPC_GRPCPP}
