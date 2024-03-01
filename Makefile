@@ -43,8 +43,9 @@ build_client:
 	mkdir -p ${TEMP_PATH}/client
 	cd ${CWD_PATH}/client && \
 		cmake -B ${TEMP_PATH}/client -S . && \
-		cmake --build ${TEMP_PATH}/client --target client
+		cmake --build ${TEMP_PATH}/client
 	mv ${TEMP_PATH}/client/client ${CWD_PATH}/target/
+	mv ${TEMP_PATH}/client/client_async ${CWD_PATH}/target/
 
 build_server: protoc_server
 	cd ${CWD_PATH}/server && \

@@ -64,7 +64,7 @@ target_link_libraries(numbers_grpc_proto
         ${_GRPC_GRPCPP}
 )
 
-foreach(_target client)
+foreach(_target client client_async)
     add_executable(${_target} "${_target}.cc")
 
     target_link_libraries(${_target}
