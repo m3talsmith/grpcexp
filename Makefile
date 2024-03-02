@@ -12,23 +12,25 @@ deps_structure:
 	mkdir -p ${TEMP_PATH}
 
 deps_grpc:
-	if [ ! -d "${TEMP_PATH}/grpc" ]; then \
-		git clone \
-			--recurse-submodules \
-			-b v1.62.0 \
-			--depth 1 \
-			--shallow-submodules https://github.com/grpc/grpc \
-			${TEMP_PATH}/grpc; \
+	if [ ! command -v protoc &> /dev/null ]; then \
+		if [ ! -d "${TEMP_PATH}/grpc" ]; then \
+			git clone \
+				--recurse-submodules \
+				-b v1.62.0 \
+				--depth 1 \
+				--shallow-submodules https://github.com/grpc/grpc \
+				${TEMP_PATH}/grpc; \
+		fi; \
+		cd ${TEMP_PATH}/grpc/ && \
+			mkdir -p ${TEMP_PATH}/grpc/cmake/build/ && \
+			pushd ${TEMP_PATH}/grpc/cmake/build/ && \
+			cmake -DgRPC_INSTALL=ON \
+			-DgRPC_BUILD_TESTS=OFF \
+			-DCMAKE_INSTALL_PREFIX=${PREFIX_PATH} \
+			../.. && \
+			make -j 4 && \
+			make install; \
 	fi
-	cd ${TEMP_PATH}/grpc/ && \
-		mkdir -p ${TEMP_PATH}/grpc/cmake/build/ && \
-		pushd ${TEMP_PATH}/grpc/cmake/build/ && \
-		cmake -DgRPC_INSTALL=ON \
-		-DgRPC_BUILD_TESTS=OFF \
-		-DCMAKE_INSTALL_PREFIX=${PREFIX_PATH} \
-		../.. && \
-		make -j 4 && \
-		make install
 
 deps_server:
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
