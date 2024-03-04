@@ -12,7 +12,7 @@ deps_structure:
 	mkdir -p ${TEMP_PATH}
 
 deps_grpc:
-	if [ ! command -v protoc &> /dev/null ]; then \
+	if ! command -v protoc &> /dev/null; then \
 		if [ ! -d "${TEMP_PATH}/grpc" ]; then \
 			git clone \
 				--recurse-submodules \
