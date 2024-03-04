@@ -1,3 +1,5 @@
+SHELL = /bin/bash
+
 PREFIX_PATH := ${HOME}/.local
 TEMP_PATH := /tmp/grpcexp
 CWD_PATH = $(shell pwd)
